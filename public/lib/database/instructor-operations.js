@@ -66,7 +66,20 @@ window.instructorOperations = {
 
       console.log("[v0] Supabase client is ready, proceeding with authentication...")
 
+      console.log("[v0] Testing database connection before authentication...")
+      const connectionTest = await window.supabaseClient
+        .from("instructors")
+        .select("count", { count: "exact", head: true })
+
+      if (connectionTest.error) {
+        console.error("[v0] Database connection test failed:", connectionTest.error)
+        throw new Error("Database connection failed. Please try again.")
+      }
+
+      console.log("[v0] Database connection verified, proceeding with login...")
+
       // Query the database for matching instructor
+      console.log("[v0] Querying database for instructor:", username)
       const { data: instructor, error } = await window.supabaseClient
         .from("instructors")
         .select("*")
@@ -76,19 +89,48 @@ window.instructorOperations = {
 
       if (error) {
         console.error("[v0] Authentication database error:", error)
-        throw new Error("Database error occurred during login")
+        console.error("[v0] Error code:", error.code)
+        console.error("[v0] Error message:", error.message)
+        console.error("[v0] Error details:", error.details)
+        throw new Error("Database error occurred during login: " + error.message)
       }
 
+      console.log("[v0] Authentication query completed")
       console.log("[v0] Authentication result:", instructor ? "SUCCESS" : "FAILED")
 
       if (instructor) {
         console.log("[v0] ✅ Authentication successful for:", instructor.username)
+        console.log("[v0] Instructor ID:", instructor.id, "(type:", typeof instructor.id, ")")
+        console.log("[v0] Instructor details:", {
+          id: instructor.id,
+          username: instructor.username,
+          full_name: instructor.full_name,
+          email: instructor.email,
+        })
+
         // Don't return password in response
         const { password: _, ...instructorData } = instructor
         return instructorData
       }
 
-      console.log("[v0] ❌ Authentication failed - no instructor returned")
+      console.log("[v0] ❌ Authentication failed - no instructor found with these credentials")
+      console.log("[v0] Searched for username:", JSON.stringify(username))
+      console.log("[v0] Password length:", password.length)
+
+      const { data: usernameCheck, error: usernameError } = await window.supabaseClient
+        .from("instructors")
+        .select("username")
+        .eq("username", username)
+        .maybeSingle()
+
+      if (usernameError) {
+        console.error("[v0] Username check error:", usernameError)
+      } else if (usernameCheck) {
+        console.log("[v0] Username exists but password doesn't match")
+      } else {
+        console.log("[v0] Username not found in database")
+      }
+
       return null
     } catch (error) {
       console.error("[v0] Error authenticating instructor:", error)

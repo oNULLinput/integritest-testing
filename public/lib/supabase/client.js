@@ -1,10 +1,20 @@
 // Supabase Client Configuration for IntegriTest System
-// Browser-compatible version using CDN
+// Browser-compatible version using environment variables
 
 window.createSupabaseClient = () => {
-  const SUPABASE_URL = "https://yuaizdcaseywadutnynd.supabase.co"
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1YWl6ZGNhc2V5d2FkdXRueW5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0Mjc3NjQsImV4cCI6MjA3MzAwMzc2NH0._5QqlBNVI5jYlwy7R_PljyXw6nHhjjUKv-7lbEPwIco"
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  console.log("[v0] Creating Supabase client with environment variables")
+  console.log("[v0] SUPABASE_URL:", SUPABASE_URL ? "✓ Set" : "✗ Missing")
+  console.log("[v0] SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY ? "✓ Set" : "✗ Missing")
+
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error("[v0] Missing required environment variables for Supabase")
+    console.error("[v0] NEXT_PUBLIC_SUPABASE_URL:", SUPABASE_URL)
+    console.error("[v0] NEXT_PUBLIC_SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY ? "Present" : "Missing")
+    return null
+  }
 
   try {
     if (
@@ -16,9 +26,9 @@ window.createSupabaseClient = () => {
       return null
     }
 
-    // Create real Supabase client using CDN
+    // Create real Supabase client using CDN with environment variables
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    console.log("[v0] Real Supabase client created with URL:", SUPABASE_URL)
+    console.log("[v0] ✅ Supabase client created successfully with environment variables")
     return supabaseClient
   } catch (error) {
     console.error("[v0] Error creating Supabase client:", error)
@@ -43,14 +53,17 @@ if (typeof window !== "undefined") {
         if (client) {
           window.supabaseClient = client
           window.supabaseReady = true
-          console.log("[v0] Supabase client initialized successfully after", initAttempts, "attempts")
+          console.log("[v0] ✅ Supabase client initialized successfully after", initAttempts, "attempts")
+
+          // Test the connection immediately
+          testSupabaseConnection()
 
           // Dispatch custom event to notify other scripts
           window.dispatchEvent(new CustomEvent("supabaseReady"))
           return true
         } else {
           window.supabaseReady = false
-          console.error("[v0] Failed to create Supabase client")
+          console.error("[v0] Failed to create Supabase client - check environment variables")
         }
       } else {
         if (initAttempts <= maxAttempts) {
@@ -76,6 +89,38 @@ if (typeof window !== "undefined") {
     }
 
     return false
+  }
+
+  async function testSupabaseConnection() {
+    try {
+      if (!window.supabaseClient) {
+        console.error("[v0] No Supabase client available for testing")
+        return false
+      }
+
+      console.log("[v0] Testing Supabase connection...")
+
+      // Test basic connection by querying instructors table
+      const { data, error } = await window.supabaseClient.from("instructors").select("id, username, full_name").limit(1)
+
+      if (error) {
+        console.error("[v0] Supabase connection test failed:", error)
+        console.error("[v0] Error details:", error.message)
+        return false
+      }
+
+      console.log("[v0] ✅ Supabase connection test successful!")
+      console.log("[v0] Found instructors in database:", data?.length || 0)
+
+      if (data && data.length > 0) {
+        console.log("[v0] Sample instructor:", data[0])
+      }
+
+      return true
+    } catch (error) {
+      console.error("[v0] Connection test error:", error)
+      return false
+    }
   }
 
   // Initialize immediately if DOM is ready
