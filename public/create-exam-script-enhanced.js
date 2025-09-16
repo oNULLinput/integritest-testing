@@ -1,7 +1,22 @@
-const supabase = window.supabase.createClient(
-  "https://yuaizdcaseywadutnynd.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1YWl6ZGNhc2V5d2FkdXRueW5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0Mjc3NjQsImV4cCI6MjA3MzAwMzc2NH0._5QqlBNVI5jYlwy7R_PljyXw6nHhjjUKv-7lbEPwIco",
-)
+let supabase = null
+
+// Wait for Supabase client to be ready
+function waitForSupabase() {
+  return new Promise((resolve) => {
+    if (window.supabaseClient && window.supabaseReady) {
+      supabase = window.supabaseClient
+      console.log("[v0] Using global Supabase client")
+      resolve(true)
+    } else {
+      console.log("[v0] Waiting for Supabase client to initialize...")
+      window.addEventListener("supabaseReady", () => {
+        supabase = window.supabaseClient
+        console.log("[v0] Supabase client ready for exam creation")
+        resolve(true)
+      })
+    }
+  })
+}
 
 // Global variables
 let questionCounter = 0
@@ -16,7 +31,9 @@ const fileInput = document.getElementById("file-input")
 const uploadedFilesList = document.getElementById("uploaded-files")
 
 // Initialize the page
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await waitForSupabase()
+
   initializeForm()
   setupFileUpload()
   checkEditMode()
