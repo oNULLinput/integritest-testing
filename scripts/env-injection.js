@@ -21,14 +21,14 @@ if (!supabaseUrl || !supabaseKey) {
 const indexPath = path.join(__dirname, "../public/index.html")
 let indexContent = fs.readFileSync(indexPath, "utf8")
 
-// Inject actual values into meta tags
+// Inject actual values into meta tags with placeholder patterns
 indexContent = indexContent.replace(
-  '<meta name="supabase-url" content="" />',
+  '<meta name="supabase-url" content="__SUPABASE_URL__" />',
   `<meta name="supabase-url" content="${supabaseUrl}" />`,
 )
 
 indexContent = indexContent.replace(
-  '<meta name="supabase-anon-key" content="" />',
+  '<meta name="supabase-anon-key" content="__SUPABASE_ANON_KEY__" />',
   `<meta name="supabase-anon-key" content="${supabaseKey}" />`,
 )
 
