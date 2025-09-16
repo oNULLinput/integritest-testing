@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create New Exam - IntegriTest</title>
+  <meta name="description" content="Create and configure new exams" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard-styles.css" />
+  <!-- Added enhanced create-exam styles -->
+  <link rel="stylesheet" href="create-exam-styles.css" />
+</head>
+<body class="create-exam-body">
+  <!-- Header -->
+  <header class="create-exam-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-left">
+          <button class="back-btn" onclick="goBackToDashboard()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Back to Dashboard
+          </button>
+          <div class="page-title">
+            <h1 class="font-heading">Create New Exam</h1>
+            <p class="page-subtitle">Design and configure your examination</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <!-- Removed save draft button -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="create-exam-main">
+    <div class="container">
+      <form id="create-exam-form" class="exam-form">
+        <!-- Exam Basic Information -->
+        <section class="form-section">
+          <div class="section-header">
+            <h2 class="section-title font-heading">Exam Information</h2>
+            <p class="section-description">Basic details about your examination</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="exam-title">Exam Title *</label>
+              <input type="text" id="exam-title" name="examTitle" required placeholder="e.g., Midterm Examination">
+            </div>
+            <div class="form-group">
+              <label for="exam-subject">Subject</label>
+              <input type="text" id="exam-subject" name="examSubject" placeholder="e.g., Computer Science">
+            </div>
+            <div class="form-group full-width">
+              <label for="exam-instructions">Instructions for Students</label>
+              <textarea id="exam-instructions" name="examInstructions" rows="4" placeholder="Provide clear instructions for students taking this exam..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Timer Configuration -->
+        <section class="form-section">
+          <div class="section-header">
+            <h2 class="section-title font-heading">Timer Configuration</h2>
+            <p class="section-description">Set time limits and controls for the exam</p>
+          </div>
+          
+          <div class="timer-config">
+            <div class="form-group">
+              <label for="exam-duration">Total Duration (minutes) *</label>
+              <input type="number" id="exam-duration" name="examDuration" required min="5" max="480" value="60" placeholder="60">
+            </div>
+            <div class="form-group">
+              <label for="time-warning">Warning Time (minutes before end)</label>
+              <input type="number" id="time-warning" name="timeWarning" min="1" max="60" value="5" placeholder="5">
+            </div>
+            <div class="timer-options">
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="show-timer" name="showTimer" checked>
+                  <span class="checkmark"></span>
+                  Show timer to students
+                </label>
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="auto-submit" name="autoSubmit" checked>
+                  <span class="checkmark"></span>
+                  Auto-submit when time expires
+                </label>
+              </div>
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="extend-time" name="extendTime">
+                  <span class="checkmark"></span>
+                  Allow instructor to extend time during exam
+                </label>
+              </div>
+              <!-- Added shuffle questions option -->
+              <div class="form-group checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="shuffle-questions" name="shuffleQuestions" checked>
+                  <span class="checkmark"></span>
+                  Shuffle questions for each student
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI-Powered Exam Generation -->
+        <section class="form-section">
+          <div class="section-header">
+            <h2 class="section-title font-heading">AI-Powered Exam Generation</h2>
+            <p class="section-description">Upload materials and specify requirements to automatically generate exam questions</p>
+          </div>
+          
+          <div class="ai-generation-section">
+            <!-- Improved file upload area with drag and drop functionality -->
+            <div class="upload-area" id="upload-area">
+              <div class="upload-content">
+                <div class="upload-icon">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                </div>
+                <h3>Upload Study Materials</h3>
+                <p>Drop up to 3 files here or click to browse</p>
+                <p class="upload-formats">Supports: PDF, DOC, DOCX, TXT, PPT, PPTX (Max 3 files)</p>
+                <button type="button" class="btn btn-outline upload-btn" onclick="document.getElementById('material-upload').click()">
+                  Choose Files
+                </button>
+                <input type="file" id="material-upload" multiple accept=".pdf,.doc,.docx,.txt,.ppt,.pptx" hidden>
+              </div>
+            </div>
+            
+            <!-- Enhanced uploaded files section with delete functionality -->
+            <div class="uploaded-files" id="uploaded-files" style="display: none;">
+              <div class="uploaded-files-header">
+                <h4>Uploaded Files (<span id="file-count">0</span>/3)</h4>
+                <button type="button" class="btn btn-outline btn-sm" id="clear-all-files" onclick="clearAllFiles()">
+                  Clear All
+                </button>
+              </div>
+              <div class="files-list" id="files-list"></div>
+            </div>
+
+            <!-- Enhanced AI instruction text area with better styling and validation -->
+            <div class="form-group full-width ai-instructions" id="ai-prompt-section" style="display: none;">
+              <label for="ai-prompt">AI Generation Instructions *</label>
+              <div class="instruction-examples">
+                <p><strong>Example instructions:</strong></p>
+                <ul>
+                  <li>"Create 20 questions: 15 multiple choice, 3 identification, 2 essay questions"</li>
+                  <li>"Generate 10 medium difficulty questions focusing on data structures"</li>
+                  <li>"Make 25 questions: mix of all 4 types (multiple choice, identification, fill-in-blanks, essay)"</li>
+                </ul>
+              </div>
+              <textarea id="ai-prompt" name="aiPrompt" rows="5" disabled placeholder="Specify your exam requirements here...&#10;&#10;Include:&#10;• Number of questions (e.g., 20 questions)&#10;• Question types (multiple choice, identification, fill-in-blanks, essay)&#10;• Difficulty level and specific topics to focus on"></textarea>
+              <div class="instruction-counter">
+                <span id="char-count">0</span>/500 characters
+              </div>
+              <small class="form-help">Tell the AI exactly what type of exam to create. Be specific about question types and quantities.</small>
+            </div>
+            
+            <!-- Simplified AI options with better organization -->
+            <div class="ai-options" id="ai-options" style="display: none;">
+              <div class="ai-generate-section">
+                <button type="button" class="btn btn-primary btn-generate" id="generate-btn" onclick="generateQuestions()" disabled>
+                  <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  Generate Questions with AI
+                </button>
+                <p class="generate-help">AI will analyze your uploaded materials and instructions to create customized questions</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Manual Question Creation -->
+        <section class="form-section">
+          <div class="section-header">
+            <h2 class="section-title font-heading">Manual Question Creation</h2>
+            <p class="section-description">Add questions manually or edit AI-generated ones</p>
+            <!-- Better organized question type buttons -->
+            <div class="question-type-buttons">
+              <button type="button" class="btn btn-outline btn-sm" onclick="addQuestion('multiple-choice')">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Multiple Choice
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addQuestion('identification')">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+                Identification
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addQuestion('fill-blanks')">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h7v7l9-11h-7z"></path>
+                </svg>
+                Fill in Blanks
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addQuestion('true-false')">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                True or False
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addQuestion('essay')">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Essay
+              </button>
+            </div>
+          </div>
+          
+          <div id="questions-container">
+            <div class="no-questions-message">
+              <div class="no-questions-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h4>No Questions Added Yet</h4>
+              <p>Upload materials for AI generation or click the buttons above to add questions manually</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Form Actions -->
+        <section class="form-actions">
+          <!-- Improved form actions layout -->
+          <div class="actions-container">
+            <button type="button" class="btn btn-outline" onclick="goBackToDashboard()">
+              <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              Cancel
+            </button>
+            <!-- Changed from type="submit" to type="button" and added onclick handler -->
+            <button type="button" class="btn btn-primary" onclick="createExam()">
+              <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Create Exam
+            </button>
+          </div>
+        </section>
+      </form>
+    </div>
+  </main>
+
+  <!-- JavaScript -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="lib/supabase/client.js"></script>
+  <script src="lib/database/exam-operations.js"></script>
+  <script src="utils.js"></script>
+  <!-- Updated to use enhanced create-exam script -->
+  <script src="create-exam-script.js"></script>
+</body>
+</html>

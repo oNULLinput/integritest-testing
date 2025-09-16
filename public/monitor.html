@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Exam Monitoring - IntegriTest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="monitor-styles.css" />
+</head>
+<body class="monitor-body">
+  <!-- Enhanced header with additional monitoring controls -->
+  <header class="zoom-header">
+    <div class="header-left">
+      <h1 class="exam-title" id="exam-title">Loading...</h1>
+      <span class="exam-code" id="exam-code">Code: ----</span>
+    </div>
+    <div class="header-center">
+      <div class="participant-count">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+        <span id="active-students">0</span>
+        <span class="participants-label">Students</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <!-- Added demo controls for testing -->
+      <button id="add-test-student-btn" class="control-btn demo-btn" onclick="addTestStudent()" title="Add Test Student (Ctrl+T)">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </button>
+      <button id="simulate-violation-btn" class="control-btn demo-btn" onclick="simulateViolation()" title="Simulate Violation (Ctrl+V)">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+      </button>
+      <button id="refresh-btn" class="control-btn" title="Refresh (Ctrl+R)">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+      </button>
+      <!-- Replaced close button with back to dashboard button -->
+      <button id="back-to-dashboard-btn" class="control-btn back-btn" onclick="backToDashboard()" title="Back to Dashboard">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span class="btn-text">Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main content area redesigned like Zoom meeting interface -->
+  <main class="zoom-main">
+    <!-- Enhanced no students message with better instructions -->
+    <div id="no-students" class="no-examinees">
+      <div class="no-examinees-content">
+        <div class="no-examinees-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <h2>No Students Taking Exam</h2>
+        <p>Waiting for students to join the exam session...</p>
+        <div class="demo-instructions">
+          <small>Demo Mode: Click the + button to add test students</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video grid container -->
+    <div id="video-grid" class="video-grid">
+      <!-- Video feeds will be populated here -->
+    </div>
+  </main>
+
+  <!-- Enhanced bottom panel with better violation display -->
+  <div id="violations-panel" class="bottom-panel">
+    <div class="panel-header">
+      <h3>Security Alerts</h3>
+      <div class="panel-controls">
+        <span class="violation-count" id="total-violations">0</span>
+        <button id="clear-violations-btn" class="clear-btn">Clear Display</button>
+      </div>
+    </div>
+    <div id="violations-list" class="violations-content">
+      <!-- Violations will be populated here -->
+    </div>
+  </div>
+
+  <!-- Added Supabase client support -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="lib/supabase/client.js"></script>
+  <script src="monitor-script.js"></script>
+</body>
+</html>

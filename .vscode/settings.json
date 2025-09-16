@@ -1,0 +1,23 @@
+{
+  "jest.jestCommandLine": "npm test --",
+  "jest.autoRun": {
+    "watch": true,
+    "onStartup": ["all-tests"]
+  },
+  "jest.showCoverageOnLoad": true,
+  "jest.coverageFormatter": "DefaultFormatter",
+  "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+  "testing.openTesting": "neverOpen",
+  "jest.outputConfig": {
+    "revealOutput": "on-run",
+    "revealWithFocus": false,
+    "clearOnRun": "terminal"
+  },
+  "files.associations": {
+    "*.test.js": "javascript",
+    "*.spec.js": "javascript"
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Session - IntegriTest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="exam-styles.css" />
+</head>
+<body class="exam-body">
+  <!-- Exam Header -->
+  <header class="exam-header">
+    <div class="exam-header-content">
+      <div class="exam-info">
+        <h1 id="exam-title">Loading Exam...</h1>
+        <div class="exam-meta">
+          <span id="student-info">Student: Loading...</span>
+          <span id="exam-code-display">Code: ----</span>
+        </div>
+      </div>
+      <div class="exam-timer">
+        <div class="timer-display" id="timer-display">00:00</div>
+        <div class="timer-label">Time Remaining</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Camera Monitoring (Hidden but active) -->
+  <div class="camera-monitoring">
+    <video id="monitoring-camera" autoplay muted playsinline style="display: none;"></video>
+    <canvas id="monitoring-canvas" style="display: none;"></canvas>
+    <div class="monitoring-status" id="monitoring-status">
+      <span class="status-indicator active"></span>
+      Camera Active
+    </div>
+  </div>
+
+  <!-- Exam Content -->
+  <main class="exam-main">
+    <div class="exam-container">
+      <div class="exam-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="progress-text" id="progress-text">Question 1 of 0</span>
+      </div>
+
+      <div class="question-container" id="question-container">
+        <!-- Questions will be loaded here -->
+      </div>
+
+      <div class="exam-navigation">
+        <button id="prev-btn" class="btn btn-secondary" disabled>Previous</button>
+        <button id="next-btn" class="btn btn-primary">Next</button>
+        <button id="submit-btn" class="btn btn-success" style="display: none;">Submit Exam</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Security Warning Modal -->
+  <div id="security-modal" class="modal">
+    <div class="modal-content">
+      <h3>Security Warning</h3>
+      <p id="security-message">You have switched tabs or windows. This action has been recorded.</p>
+      <button id="security-ok-btn" class="btn btn-primary">I Understand</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="lib/supabase/client.js"></script>
+  <script src="lib/database/exam-operations.js"></script>
+  <script src="utils.js"></script>
+  <script src="exam-script.js"></script>
+</body>
+</html>

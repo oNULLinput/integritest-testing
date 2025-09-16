@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IntegriTest - Secure Online Examination Platform</title>
+    <meta name="description" content="Empowering educational institutions with trustworthy online assessments" />
+    
+    <!-- Added Google Fonts for Inter and Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Added CSS file link -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <svg class="shield-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+            <h1>IntegriTest</h1>
+          </div>
+          <nav class="nav">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="badge">Trusted by 500+ Institutions</div>
+            <h1 class="hero-title">
+              Secure Your Future with <span class="text-primary">IntegriTest</span>
+            </h1>
+            <p class="hero-description">
+              Empowering educational institutions with trustworthy online assessments. Experience seamless
+              examinations designed for both students and educators.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn btn-primary">Get Started</button>
+              <button class="btn btn-outline">Learn More</button>
+            </div>
+            <div class="features-list">
+              <div class="feature-item">
+                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Bank-level Security</span>
+              </div>
+              <div class="feature-item">
+                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Real-time Proctoring</span>
+              </div>
+              <div class="feature-item">
+                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>Easy Setup</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Login Card -->
+          <div class="login-card">
+            <div class="card-header">
+              <h2>Welcome Back</h2>
+              <p>Sign in to access your examinations</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tab-list">
+              <button class="tab-trigger active" data-tab="student">Student</button>
+              <button class="tab-trigger" data-tab="instructor">Instructor</button>
+            </div>
+
+            <!-- Student Tab -->
+            <div id="student-tab" class="tab-content active">
+              <div class="tab-header">
+              </div>
+
+              <form id="student-form" class="form">
+                <!-- Camera detection / consent -->
+                <div class="form-group camera-verify">
+                  <label style="display:flex;align-items:center;gap:0.5rem;">
+                    <input id="face-verified" type="checkbox" disabled>
+                    <span id="face-verified-label">Face detected</span>
+                  </label>
+
+                  <!-- Detect face button (clickable text) -->
+                  <button type="button" id="start-camera-btn" class="btn btn-outline">Detect face</button>
+
+                  <!-- Camera preview container -->
+                  <div class="camera-container" style="display:flex;gap:1rem;align-items:center;margin-top:0.75rem;">
+                    <video id="camera-preview" autoplay muted playsinline style="width:160px;height:120px;border-radius:8px;display:none;background:#000"></video>
+                    <div id="camera-status" style="padding:0.5rem 0.75rem;border-radius:6px;background:linear-gradient(135deg,rgba(0,0,0,0.6),rgba(55,65,81,0.6));color:#fff;min-width:180px;">
+                      <div class="status-text">Camera not started</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Student input fields -->
+                <div class="form-group">
+                  <label for="exam-code">Exam Code</label>
+                  <input id="exam-code" name="exam-code" type="text" />
+                </div>
+                <div class="form-group">
+                  <label for="surname">Surname</label>
+                  <input id="surname" name="surname" type="text" placeholder="Enter your surname" />
+                </div>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" type="text" placeholder="Enter your first name" />
+                </div>
+                <div class="form-group">
+                  <label for="middle-initial">Middle Initial</label>
+                  <input id="middle-initial" name="middle-initial" type="text" maxlength="1" placeholder="M" style="text-transform: uppercase;" />
+                </div>
+                <div class="form-group">
+                  <label for="student-number">Student Number</label>
+                  <input id="student-number" name="student-number" type="text" />
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-full">Access Exam</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Instructor Tab -->
+            <div id="instructor-tab" class="tab-content">
+              <form id="instructor-form" class="form">
+                <div class="form-group">
+                  <label for="instructor-username">Username</label>
+                  <input
+                    id="instructor-username"
+                    type="text"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="instructor-password">Password</label>
+                  <input
+                    id="instructor-password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">
+                  Sign In as Instructor
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exam Reminder Section -->
+    <section class="exam-reminder" aria-live="polite">
+      <div class="reminder-header">
+        <span class="warning-icon" aria-hidden="true">⚠️</span>
+        <h4 class="font-heading">Exam Monitoring & Behavior</h4>
+      </div>
+      <div class="reminder-content">
+        <p>
+          Switching tabs or windows (including Alt+Tab) is monitored. First switch = your first warning, second switch = your final warning, a third switch will automatically submit your exam.
+        </p>
+        <p>
+          Proctors may view your webcam during the exam to monitor behavior. By proceeding you consent to camera monitoring for this session.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Why Choose IntegriTest?</h2>
+          <p>Your data is secure with state-of-the-art encryption and privacy measures</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <h3>Advanced Security</h3>
+            <p>Bank-level encryption and secure authentication protect your examinations</p>
+          </div>
+
+          <div class="feature-card">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+            </svg>
+            <h3>Real-time Proctoring</h3>
+            <p>AI-powered monitoring ensures exam integrity with live supervision</p>
+          </div>
+
+          <div class="feature-card">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+            <h3>Easy Management</h3>
+            <p>Intuitive interface for creating, managing, and grading examinations</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <svg class="shield-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+            <span>IntegriTest</span>
+          </div>
+          <p>© 2024 IntegriTest. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Processing your request...</p>
+    </div>
+
+    <!-- Added Supabase CDN script for database connectivity -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Added missing database operation scripts -->
+    <script src="lib/supabase/client.js"></script>
+    <script src="lib/database/instructor-operations.js"></script>
+    <script src="lib/database/exam-operations.js"></script>
+    <!-- Added utility script before main script -->
+    <script src="utils.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
