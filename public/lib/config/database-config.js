@@ -4,9 +4,23 @@
 window.DatabaseConfig = {
   // Environment variable validation
   validateEnvironmentVariables() {
+    // Get environment variables from window object (injected by build process)
     const requiredVars = {
-      SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      SUPABASE_URL: window.ENV?.NEXT_PUBLIC_SUPABASE_URL || window.NEXT_PUBLIC_SUPABASE_URL,
+      SUPABASE_ANON_KEY: window.ENV?.NEXT_PUBLIC_SUPABASE_ANON_KEY || window.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    }
+
+    if (!requiredVars.SUPABASE_URL || !requiredVars.SUPABASE_ANON_KEY) {
+      console.warn("[v0] Environment variables not found, checking for fallback configuration...")
+
+      // Try to get from meta tags or script tags
+      const urlMeta = document.querySelector('meta[name="supabase-url"]')
+      const keyMeta = document.querySelector('meta[name="supabase-anon-key"]')
+
+      if (urlMeta && keyMeta) {
+        requiredVars.SUPABASE_URL = urlMeta.content
+        requiredVars.SUPABASE_ANON_KEY = keyMeta.content
+      }
     }
 
     const missing = []
@@ -64,7 +78,19 @@ window.DatabaseConfig = {
       clientAvailable: !!window.supabaseClient,
     }
   },
-}
+}(
+  // Inject environment variables into window object
+  () => {
+    // This will be populated by the build process or server
+    window.ENV = window.ENV || {}
+
+    // For development, you can set these directly:
+    if (!window.ENV.NEXT_PUBLIC_SUPABASE_URL) {
+      // These should be replaced with actual environment variables in production
+      console.log("[v0] Loading environment variables from available sources...")
+    }
+  },
+)()
 
 // Initialize configuration check on load
 document.addEventListener("DOMContentLoaded", () => {

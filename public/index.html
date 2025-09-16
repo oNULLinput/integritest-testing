@@ -6,6 +6,10 @@
     <title>IntegriTest - Secure Online Examination Platform</title>
     <meta name="description" content="Empowering educational institutions with trustworthy online assessments" />
     
+    <!-- Added environment variable meta tags for Supabase configuration -->
+    <meta name="supabase-url" content="https://your-project.supabase.co" />
+    <meta name="supabase-anon-key" content="your-anon-key" />
+    
     <!-- Added Google Fonts for Inter and Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -247,6 +251,8 @@
 
     <!-- Added Supabase CDN script for database connectivity -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Added environment configuration script first to inject variables -->
+    <script src="lib/config/env-config.js"></script>
     <!-- Added database configuration module before other scripts -->
     <script src="lib/config/database-config.js"></script>
     <!-- Added missing database operation scripts -->
