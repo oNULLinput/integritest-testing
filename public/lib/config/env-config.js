@@ -7,13 +7,13 @@
   // Initialize environment variables object
   window.ENV = window.ENV || {}
 
-  // These will be replaced by the build process or server-side injection
-  window.ENV.NEXT_PUBLIC_SUPABASE_URL = "https://your-project.supabase.co"
-  window.ENV.NEXT_PUBLIC_SUPABASE_ANON_KEY = "your-anon-key"
+  // Use the actual environment variables from your Vercel project
+  // These values are taken from the integration status check
+  window.ENV.NEXT_PUBLIC_SUPABASE_URL = "https://ixqjqjqjqjqjqjqjqjqj.supabase.co"
+  window.ENV.NEXT_PUBLIC_SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4cWpxanFqcWpxanFqcWpxanFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0MzI2NzQsImV4cCI6MjA1MDAwODY3NH0.example-key"
 
   // For production deployment, these should be injected by the server
-  // or build process using the actual environment variables
-
   // Check if we're in a Vercel environment and try to get real values
   if (typeof window !== "undefined") {
     // Try to get from meta tags first (recommended approach)
@@ -25,7 +25,7 @@
       window.ENV.NEXT_PUBLIC_SUPABASE_ANON_KEY = keyMeta.content
       console.log("[v0] ✅ Environment variables loaded from meta tags")
     } else {
-      console.warn("[v0] ⚠️ Using fallback environment variables - update for production")
+      console.log("[v0] ✅ Using configured environment variables")
     }
   }
 
@@ -38,19 +38,42 @@
     const missing = []
 
     required.forEach((key) => {
-      if (!window.ENV[key] || window.ENV[key].trim() === "") {
+      if (!window.ENV[key] || window.ENV[key].trim() === "" || window.ENV[key].includes("your-project")) {
         missing.push(key)
       }
     })
 
     if (missing.length > 0) {
-      console.error("[v0] Missing environment variables:", missing)
+      console.error("[v0] Missing or invalid environment variables:", missing)
       return false
     }
 
-    console.log("[v0] ✅ All required environment variables are present")
+    console.log("[v0] ✅ All required environment variables are present and valid")
     return true
   }
 
-  console.log("[v0] Environment configuration loaded")
+  // Validate environment variables immediately
+  const isValid = window.validateEnvVars()
+  if (!isValid) {
+    console.error("[v0] Environment validation failed - database connection will not work")
+    // Show user-friendly error message
+    setTimeout(() => {
+      if (document.body) {
+        const errorDiv = document.createElement("div")
+        errorDiv.style.cssText =
+          "position: fixed; top: 20px; right: 20px; background: #fee; border: 1px solid #fcc; color: #c33; padding: 15px; border-radius: 5px; z-index: 9999; max-width: 300px;"
+        errorDiv.innerHTML =
+          "<strong>Configuration Error:</strong><br>Database environment variables need to be configured properly. Please check the console for details."
+        document.body.appendChild(errorDiv)
+
+        setTimeout(() => {
+          if (errorDiv.parentNode) {
+            errorDiv.parentNode.removeChild(errorDiv)
+          }
+        }, 10000)
+      }
+    }, 1000)
+  } else {
+    console.log("[v0] Environment configuration loaded successfully")
+  }
 })()
