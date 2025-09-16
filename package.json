@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-env-injection.js && next build",
-    "build:env": "node scripts/build-env-injection.js",
+    "build": "node scripts/env-injection.js && next build",
+    "build:env": "node scripts/env-injection.js",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
